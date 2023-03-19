@@ -17,6 +17,8 @@ html[dark-mode='dark-mode'] .typecho-post-area #slug,
 html[dark-mode='dark-mode'] .j-setting-contain .j-aside,
 html[dark-mode='dark-mode'] .typecho-list-table tbody tr.checked td,
 html[dark-mode='dark-mode'] .joe_config__aside,
+html[dark-mode='dark-mode'] #j-wmd-expand .dropdown .content .item:hover,
+html[dark-mode='dark-mode'] .joe_config__aside .backup input:hover,
 html[dark-mode='dark-mode'] .joe_config > form .joe_content li .typecho-label {
 	background: #222;
 	color: #bbb;
@@ -43,6 +45,8 @@ html[dark-mode='dark-mode'] .j-setting-contain .j-setting-notice ul,
 html[dark-mode='dark-mode'] .user-info,
 html[dark-mode='dark-mode'] .joe_config__notice,
 html[dark-mode='dark-mode'] .joe_config > form,
+html[dark-mode='dark-mode'] #j-wmd-expand .dropdown,
+html[dark-mode='dark-mode'] .joe_config__aside .backup,
 html[dark-mode='dark-mode'] .joe_config__aside .tabs .item:hover,
 html[dark-mode='dark-mode'] .joe_config > form .typecho-option {
 	background: #333;
@@ -63,6 +67,7 @@ html[dark-mode='dark-mode'] #wstyle .wsmain,
 html[dark-mode='dark-mode'] .category-option ul,
 html[dark-mode='dark-mode'] .typecho-option-tabs a,
 html[dark-mode='dark-mode'] #ui-datepicker-div,
+html[dark-mode='dark-mode'] #j-wmd-expand .dropdown,
 html[dark-mode='dark-mode'] .j-setting-contain > form .j-setting-content li,
 html[dark-mode='dark-mode'] .j-setting-contain > form .j-setting-content li select,
 html[dark-mode='dark-mode'] .j-setting-contain > form .j-setting-content li textarea,
@@ -72,6 +77,9 @@ html[dark-mode='dark-mode'] .joe_config > form .joe_content li textarea,
 html[dark-mode='dark-mode'] .joe_config > form .joe_content li input[type='text'],
 html[dark-mode='dark-mode'] .joe_config > form .joe_content li select {
 	border: 1px solid #444;
+}
+html[dark-mode='dark-mode'] #j-wmd-expand .dropdown:before {
+	border-bottom: 7px solid #444;
 }
 html[dark-mode='dark-mode'] .success,
 html[dark-mode='dark-mode'] .wrap .shortcut a i,
@@ -185,35 +193,16 @@ a {
 	height: 100px;
 	object-fit: fill;
 }
-.main {
-	width: 100%;
-	margin: 0 auto;
-	padding: 50px 0;
-}
-.proup {
-	position: fixed;
-	display: none;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	z-index: 10000;
-	cursor: pointer;
-	background: rgba(0, 0, 0, 0.65);
-	backdrop-filter: blur(5px);
-	-webkit-backdrop-filter: blur(5px);
-}
 .typecho-head-nav .operate {
 	position: fixed;
-	width: 100%;
+	width: calc(100% - 215px);
 	padding-right: 15px;
 	right: 0;
 	height: 50px;
 	top: 0;
-	z-index: 9999;
+	z-index: 998;
 	background: #fff;
 	text-align: right;
-	box-shadow: 0 0 20px -5px rgb(158 158 158 / 22%);
 }
 .typecho-head-nav .operate a {
 	border: none;
@@ -224,6 +213,14 @@ a {
 .typecho-head-nav .operate a:hover {
 	background: none;
 	color: #5562c1;
+}
+.main {
+	width: calc(100% - 200px);
+	position: absolute;
+	right: 0;
+	top: 0px;
+	padding-top: 60px;
+	padding-bottom: 50px;
 }
 .typecho-head-nav a,
 .typecho-head-nav button.menu-bar {
@@ -269,16 +266,19 @@ a {
 	background-color: #f5f5f5;
 }
 #typecho-nav-list {
-	display: none;
 	position: fixed;
-	z-index: 10000;
+	z-index: 998;
 	top: 0;
 	left: 0;
 	background: #fff;
-	width: 180px;
+	width: 200px;
 	overflow: auto;
 	height: 100%;
 	box-shadow: 0 0 20px -5px rgba(158, 158, 158, 0.22);
+}
+.container {
+	width: 100%;
+	padding: 0px 30px;
 }
 .typecho-theme-list tbody tr.current td {
 	background-color: #e8ecf3;
@@ -293,9 +293,9 @@ a {
 }
 .user-info {
 	width: 100%;
-	padding: 25px 0;
+	padding-top: 3rem;
 	text-align: center;
-	border-bottom: 1px solid #bbb;
+	border-bottom: 1px dashed #bbb;
 }
 .user-info img {
 	border-radius: 50%;
@@ -310,7 +310,7 @@ a {
 	transform: rotate(360deg);
 }
 .user-nav {
-	margin-left: -1rem;
+	margin-top: 1rem;
 }
 .user-nav li {
 	line-height: 40px;
@@ -378,8 +378,13 @@ a {
 }
 #tonav {
 	float: left;
-	margin-left: 30px;
-	font-size: 16px;
+	margin-left: 1rem;
+}
+.typecho-head-nav .operate a:not(#dark-mode, #tonav, #user-more) {
+	display: inline-flex;
+}
+#user-more {
+	display: none;
 }
 #wmd-preview {
 	background: #f3f3f3;
@@ -545,9 +550,46 @@ ul {
 	font-style: normal;
 	text-align: center;
 }
+
+@media all and (max-width: 1000px) {
+	#typecho-nav-list {
+		display: none;
+		z-index: 1000;
+	}
+	#tonav {
+		margin-left: 1.5rem;
+	}
+	.typecho-head-nav .operate,
+	.main {
+		width: 100%;
+	}
+	.proup {
+		position: fixed;
+		display: none;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		z-index: 999;
+		cursor: pointer;
+		background: rgba(0, 0, 0, 0.65);
+		backdrop-filter: blur(5px);
+		-webkit-backdrop-filter: blur(5px);
+	}
+}
 @media all and (max-width: 575px) {
 	.container {
 		padding: 0 20px;
+	}
+	#btn-preview {
+		display: none;
+	}
+	.typecho-head-nav .operate a:not(#dark-mode, #tonav, #user-more) {
+		display: none;
+	}
+	#user-more {
+		display: inline-flex;
+		float: right;
 	}
 	a.balloon-button,
 	a.balloon-button:hover {

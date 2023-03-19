@@ -1,14 +1,14 @@
 <?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 /**
- * WangStyle是一款即插即用的typecho后台美化插件
+ * WordStyle是一款即插即用的typecho后台美化插件
  * 
- * @package WangStyle
+ * @package WordStyle
  * @author 小王先森
- * @version 6.3.0
+ * @version v1.0.5
  * @link https://xwsir.cn
  */
-class WangStyle_Plugin implements Typecho_Plugin_Interface
+class WordStyle_Plugin implements Typecho_Plugin_Interface
 {
     /**
      * 激活插件方法
@@ -19,12 +19,11 @@ class WangStyle_Plugin implements Typecho_Plugin_Interface
      */
     public static function activate()
     {
-        Typecho_Plugin::factory('admin/header.php')->header = array('WangStyle_Plugin', 'render');
-        //Typecho_Plugin::factory('admin/footer.php')->end = array('WangStyle_Plugin', 'footerjs');
+        Typecho_Plugin::factory('admin/header.php')->header = array('WordStyle_Plugin', 'render');
 
         if (file_exists("admin/index.php")) {
             rename("admin/index.php", "admin/index.bak");
-            copy("usr/plugins/WangStyle/assets/index.php", "admin/index.php");
+            copy("usr/plugins/WordStyle/assets/index.php", "admin/index.php");
         }
     }
 
@@ -74,7 +73,7 @@ class WangStyle_Plugin implements Typecho_Plugin_Interface
      */
     public static function render($head)
     {
-        $url = Helper::options()->pluginUrl . '/WangStyle/assets/';
+        $url = Helper::options()->pluginUrl . '/WordStyle/assets/';
 
         if (Typecho_Widget::widget('Widget_User')->hasLogin()) {
             //gravatar 头像源
@@ -94,9 +93,9 @@ class WangStyle_Plugin implements Typecho_Plugin_Interface
             } else {
                 $qqImage = $url . 'img/user.png';
             }
-            $head = $head . '<link rel="stylesheet" href="' . $url . 'css/admin.css?v=6.0.3">
-                <link rel="stylesheet" href="//at.alicdn.com/t/font_1159885_m16xrs3st3k.css">
-                <script src="' . $url . 'js/admin.js?v=6.0.3"></script>
+            $head = $head . '<link rel="stylesheet" href="' . $url . 'css/admin.css?v1.0.5">
+                <link rel="stylesheet" href="//at.alicdn.com/t/c/font_1159885_9dcir2kfagv.css">
+                <script src="' . $url . 'js/admin.js?v1.0.5"></script>
                 <script>
                     var UserLink="' . Helper::options()->adminUrl . '/profile.php";
                     var UserPic="' . $qqImage . '";
