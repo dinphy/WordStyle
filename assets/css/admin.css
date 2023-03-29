@@ -581,6 +581,9 @@ ul {
 	.container {
 		padding: 0 20px;
 	}
+	select {
+		width: 100%;
+	}
 	#btn-preview {
 		display: none;
 	}

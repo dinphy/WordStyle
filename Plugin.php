@@ -5,7 +5,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  * 
  * @package WordStyle
  * @author 小王先森
- * @version v1.0.5
+ * @version 1.0.6
  * @link https://xwsir.cn
  */
 class WordStyle_Plugin implements Typecho_Plugin_Interface
@@ -52,6 +52,7 @@ class WordStyle_Plugin implements Typecho_Plugin_Interface
      */
     public static function config(Typecho_Widget_Helper_Form $form)
     {
+        $form->addInput(new Typecho_Widget_Helper_Form_Element_Text('myText', NULL, 'cdn.helingqi.com/avatar', '用户头像', '默认源为禾令奇：cdn.helingqi.com/avatar <br /><b>注意：</b>不需要输入 http(s)://'));
     }
 
     /**
@@ -65,6 +66,12 @@ class WordStyle_Plugin implements Typecho_Plugin_Interface
     {
     }
 
+    /* 获取插件版本号 */
+    public static function getVersion()
+    {
+        $pinfo = Typecho_Plugin::parseInfo(__FILE__);
+        return $pinfo['version'];
+    }
     /**
      * 插件实现方法
      * 
@@ -76,8 +83,8 @@ class WordStyle_Plugin implements Typecho_Plugin_Interface
         $url = Helper::options()->pluginUrl . '/WordStyle/assets/';
 
         if (Typecho_Widget::widget('Widget_User')->hasLogin()) {
-            //gravatar 头像源
-            define('__TYPECHO_GRAVATAR_PREFIX__', '//' . 'gravatar.helingqi.com/wavatar' . '/');
+            $myText = Helper::options()->plugin('WordStyle')->myText;
+            define('__TYPECHO_GRAVATAR_PREFIX__', '//' . $myText . '/');
             $user = Typecho_Widget::widget('Widget_User');
             $menu = Typecho_Widget::widget('Widget_Menu')->to($menu);
             $email = $user->mail;
@@ -88,14 +95,16 @@ class WordStyle_Plugin implements Typecho_Plugin_Interface
                     $qqImage = '//q1.qlogo.cn/g?b=qq&nk=' . $format . '&';
                 } else {
                     $decode = md5($lowercase);
-                    $qqImage = '//' . 'gravatar.helingqi.com/wavatar' . '/' . $decode . '?';
+                    $qqImage = '//' . $myText . '/' . $decode . '?';
                 }
             } else {
-                $qqImage = $url . 'img/user.png';
+                $qqImage = $url . 'assets/img/user.png';
             }
-            $head = $head . '<link rel="stylesheet" href="' . $url . 'css/admin.css?v1.0.5">
+
+            $version = WordStyle_Plugin::getVersion();
+            $head = $head . '<link rel="stylesheet" href="' . $url . 'css/admin.css?v=' . $version . '">
                 <link rel="stylesheet" href="//at.alicdn.com/t/c/font_1159885_9dcir2kfagv.css">
-                <script src="' . $url . 'js/admin.js?v1.0.5"></script>
+                <script src="' . $url . 'js/admin.js?v=' . $version . '"></script>
                 <script>
                     var UserLink="' . Helper::options()->adminUrl . '/profile.php";
                     var UserPic="' . $qqImage . '";
